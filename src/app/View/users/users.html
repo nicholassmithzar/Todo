@@ -88,6 +88,27 @@
             </ul>
           }
         </section>
+
+        <form class="users__create-todo-form" (ngSubmit)="createLocalTodo()">
+          <h3 class="users__form-title">Add New To-do</h3>
+          <div class="users__form-group">
+            <input
+              pInputText
+              type="text"              name="title"              [ngModel]="newTodoTitle()"
+              (ngModelChange)="newTodoTitle.set($event)"
+              placeholder="Enter a new to-do..."
+              class="users__form-input"
+              [disabled]="submitting()"
+            />
+            <p-button
+              label="Add To-do"
+              [loading]="submitting()"
+              [disabled]="!canSubmitTodo()"
+              (onClick)="createLocalTodo()"
+              class="users__form-button"
+            />
+          </div>
+        </form>
       </article>
     }
   }
