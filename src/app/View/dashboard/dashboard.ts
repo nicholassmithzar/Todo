@@ -10,6 +10,7 @@ import {
   DashboardService,
   DashboardUserSummary
 } from './dashboard.service';
+import { RouterLink } from "@angular/router";
 
 interface DashboardTodoItem {
   id: number;
@@ -19,7 +20,7 @@ interface DashboardTodoItem {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ButtonModule, CardModule, TagModule, SkeletonModule, MessageModule],
+  imports: [ButtonModule, CardModule, TagModule, SkeletonModule, MessageModule, RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

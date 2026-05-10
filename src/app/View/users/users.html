@@ -1,115 +1,100 @@
 <section class="users">
   <header class="users__header">
     <h1 class="users__title">Users</h1>
-    <p-button
-      label="Refresh"
-      icon="pi pi-refresh"
-      size="small"
-      severity="secondary"
-      [outlined]="true"
-      [loading]="loading()"
-      (onClick)="loadData()"
-    />
+    <p-button label="Refresh" icon="pi pi-refresh" size="small" severity="secondary" [outlined]="true"
+      [loading]="loading()" (onClick)="loadData()" />
   </header>
 
   @if (error()) {
-    <p-message severity="error" styleClass="users__error">
-      {{ error() }}
-    </p-message>
+  <p-message severity="error" styleClass="users__error">
+    {{ error() }}
+  </p-message>
   }
 
   @if (loading()) {
-    <div class="users__skeleton-list">
-      @for (_ of [1,2,3,4,5]; track $index) {
-        <p-skeleton height="3rem" borderRadius="0.5rem" />
-      }
-    </div>
-  } @else {
-    <p-table
-      [value]="users()"
-      [rowsPerPageOptions]="[5, 10, 20]"
-      [rows]="5"
-      [paginator]="true"
-      [showCurrentPageReport]="true"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 3rem"></th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-user>
-        <tr
-          class="users__row"
-          [class.users__row--selected]="selectedUserId() === user.id"
-          (click)="selectUser(user.id)"
-        >
-          <td class="users__row-expander">
-            <i
-              [class]="selectedUserId() === user.id ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
-            ></i>
-          </td>
-          <td class="users__cell">{{ user.name }}</td>
-          <td class="users__cell">{{ user.email }}</td>
-          <td class="users__cell">{{ user.phone }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-
-    @if (selectedUser(); as user) {
-      <article class="users__detail">
-        <h2 class="users__detail-title">{{ user.name }}</h2>
-        <dl class="users__detail-info">
-          <dt>Email</dt>
-          <dd>{{ user.email }}</dd>
-          <dt>Phone</dt>
-          <dd>{{ user.phone }}</dd>
-          <dt>Website</dt>
-          <dd>{{ user.website }}</dd>
-          <dt>Company</dt>
-          <dd>{{ user.company?.name }}</dd>
-        </dl>
-
-        <section class="users__detail-todos">
-          <h3 class="users__detail-todos-title">Todos ({{ userTodos().length }})</h3>
-          @if (userTodos().length === 0) {
-            <p class="users__empty-state">No todos assigned.</p>
-          } @else {
-            <ul class="users__todos-list">
-              @for (todo of userTodos(); track todo.id) {
-                <li class="users__todo-item" [class.users__todo-item--completed]="todo.completed">
-                  <input type="checkbox" [checked]="todo.completed" disabled />
-                  <span class="users__todo-text">{{ todo.title }}</span>
-                </li>
-              }
-            </ul>
-          }
-        </section>
-
-        <form class="users__create-todo-form" (ngSubmit)="createLocalTodo()">
-          <h3 class="users__form-title">Add New To-do</h3>
-          <div class="users__form-group">
-            <input
-              pInputText
-              type="text"              name="title"              [ngModel]="newTodoTitle()"
-              (ngModelChange)="newTodoTitle.set($event)"
-              placeholder="Enter a new to-do..."
-              class="users__form-input"
-              [disabled]="submitting()"
-            />
-            <p-button
-              label="Add To-do"
-              [loading]="submitting()"
-              [disabled]="!canSubmitTodo()"
-              (onClick)="createLocalTodo()"
-              class="users__form-button"
-            />
-          </div>
-        </form>
-      </article>
+  <div class="users__skeleton-list">
+    @for (_ of [1,2,3,4,5]; track $index) {
+    <p-skeleton height="3rem" borderRadius="0.5rem" />
     }
+  </div>
+  } @else {
+  <p-table [value]="users()" [rowsPerPageOptions]="[5, 10, 20]" [rows]="5" [paginator]="true"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem"></th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr class="users__row" [class.users__row--selected]="selectedUserId() === user.id" (click)="selectUser(user.id)">
+        <td class="users__row-expander">
+          <i [class]="selectedUserId() === user.id ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"></i>
+        </td>
+        <td class="users__cell">{{ user.name }}</td>
+        <td class="users__cell">{{ user.email }}</td>
+        <td class="users__cell">{{ user.phone }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  @if (selectedUser(); as user) {
+  <section class="users__detail-grid">
+    <p-card styleClass="users__card users__card--profile">
+      <ng-template pTemplate="header">
+        <h2 class="users__detail-title">{{ user.name }}</h2>
+      </ng-template>
+
+      <dl class="users__detail-info">
+        <dt>Email</dt>
+        <dd>{{ user.email }}</dd>
+        <dt>Phone</dt>
+        <dd>{{ user.phone }}</dd>
+        <dt>Website</dt>
+        <dd>{{ user.website }}</dd>
+        <dt>Company</dt>
+        <dd>{{ user.company?.name }}</dd>
+      </dl>
+
+      <form class="users__create-todo-form" (ngSubmit)="createLocalTodo()">
+        <h3 class="users__form-title">Add New To-do</h3>
+        <div class="users__form-group">
+          <input pInputText type="text" name="title" [ngModel]="newTodoTitle()"
+            (ngModelChange)="newTodoTitle.set($event)" placeholder="Enter a new to-do..." class="users__form-input"
+            [disabled]="submitting()" />
+          <p-button label="Add To-do" [loading]="submitting()" [disabled]="!canSubmitTodo()"
+            (onClick)="createLocalTodo()" class="users__form-button" />
+        </div>
+      </form>
+    </p-card>
+    <p-card styleClass="users__card users__card--todos">
+      <ng-template pTemplate="header">
+        <div class="users__card-header">
+          <h3 class="users__detail-todos-title">Todos</h3>
+          <span class="users__count-chip">{{ userTodos().length }}</span>
+        </div>
+      </ng-template>
+
+      <section class="users__detail-todos">
+        @if (userTodos().length === 0) {
+        <p class="users__empty-state">No todos assigned.</p>
+        } @else {
+        <ul class="users__todos-list">
+          @for (todo of userTodos(); track todo.id) {
+          <li class="users__todo-item" [class.users__todo-item--completed]="todo.completed">
+            <input type="checkbox" [checked]="todo.completed" disabled />
+            <span class="users__todo-text">{{ todo.title }}</span>
+          </li>
+          }
+        </ul>
+        }
+      </section>
+    </p-card>
+
+
+  </section>
+  }
   }
 </section>

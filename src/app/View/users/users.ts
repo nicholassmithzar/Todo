@@ -8,11 +8,12 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { MessageModule } from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { CardModule } from 'primeng/card';
 import { User, UsersService, Todo } from './users.service';
 
 @Component({
   selector: 'app-users',
-  imports: [CommonModule, FormsModule, TableModule, SkeletonModule, MessageModule, ButtonModule, InputTextModule],
+  imports: [CommonModule, FormsModule, TableModule, SkeletonModule, MessageModule, ButtonModule, InputTextModule, CardModule],
   templateUrl: './users.html',
   styleUrl: './users.scss',
 })
@@ -37,7 +38,7 @@ export class Users implements OnInit {
     if (userId === null) return [];
     const apiTodos = this.allTodos().filter((todo) => todo.userId === userId);
     const localUserTodos = this.localTodos().filter((todo) => todo.userId === userId);
-    return [...apiTodos, ...localUserTodos];
+    return [...localUserTodos, ...apiTodos];
   });
 
   protected readonly canSubmitTodo = computed(() => {
@@ -88,7 +89,7 @@ export class Users implements OnInit {
         completed: false
       };
 
-      this.localTodos.update((todos) => [...todos, newTodo]);
+      this.localTodos.update((todos) => [newTodo, ...todos]);
       this.newTodoTitle.set('');
       this.submitting.set(false);
     }, 300);
