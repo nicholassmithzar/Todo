@@ -1,1 +1,89 @@
-<p>dashboard works!</p>
+<section class="dashboard">
+  <header class="dashboard__header">
+    <h1 class="dashboard__title">Dashboard</h1>
+    <p-button label="Refresh" icon="pi pi-refresh" severity="contrast" size="small" [outlined]="true" [loading]="loading()"
+      (onClick)="loadDashboard()" />
+  </header>
+
+  @if (error()) {
+  <p-message severity="error" styleClass="dashboard__error">
+    <div class="dashboard__error-body">
+      <span>{{ error() }}</span>
+      <p-button label="Retry" severity="danger" size="small"  (onClick)="loadDashboard()" />
+    </div>
+  </p-message>
+  }
+
+  @if (loading()) {
+  <div class="dashboard__metrics">
+    @for (_ of [1,2,3,4,5]; track $index) {
+    <p-skeleton height="5rem" borderRadius="0.75rem" />
+    }
+  </div>
+  <div class="dashboard__panels">
+    <p-skeleton height="13.75rem" borderRadius="0.75rem" />
+    <p-skeleton height="13.75rem" borderRadius="0.75rem" />
+  </div>
+  } @else if (metrics(); as currentMetrics) {
+  <div class="dashboard__metrics">
+    <p-card>
+      <p class="dashboard__metric-label">Total Todos</p>
+      <p class="dashboard__metric-value">{{ currentMetrics.totalTodos }}</p>
+    </p-card>
+    <p-card>
+      <p class="dashboard__metric-label">Completed</p>
+      <p class="dashboard__metric-value">{{ currentMetrics.completedTodos }}</p>
+    </p-card>
+    <p-card>
+      <p class="dashboard__metric-label">Pending</p>
+      <p class="dashboard__metric-value">{{ currentMetrics.pendingTodos }}</p>
+    </p-card>
+    <p-card>
+      <p class="dashboard__metric-label">Users</p>
+      <p class="dashboard__metric-value">{{ currentMetrics.totalUsers }}</p>
+    </p-card>
+    <p-card>
+      <p class="dashboard__metric-label">Completion Rate</p>
+      <p class="dashboard__metric-value">{{ completionRateLabel() }}</p>
+    </p-card>
+  </div>
+
+  <div class="dashboard__panels">
+    <p-card>
+      <ng-template #header>
+
+        <div class="dashboard__panel-header">
+          <h2 class="dashboard__panel-title">Recent Todos</h2>
+          <div>
+
+          <p-button label="Add" size="small" severity="primary" [outlined]="true"    />
+          <p-button label="View All" severity="secondary" [text]="true"  />
+          </div>
+
+        </div>
+      </ng-template>
+
+
+      <ul class="dashboard__list">
+        @for (todo of recentTodos(); track todo.id) {
+        <li class="dashboard__list-item">
+          <span>{{ todo.title }}</span>
+          <p-tag [value]="todo.completed ? 'Done' : 'Open'" [severity]="todo.completed ? 'success' : 'warn'" />
+        </li>
+        }
+      </ul>
+    </p-card>
+
+    <p-card header="Top Users by Todos">
+      <ul class="dashboard__list">
+        @for (user of topUsers(); track user.id) {
+        <li class="dashboard__list-item">
+          <span>{{ user.name }}</span>
+          <span class="dashboard__user-meta">{{ user.completedCount }}/{{ user.todoCount }} done</span>
+        </li>
+        }
+      </ul>
+    </p-card>
+  </div>
+  }
+</section>

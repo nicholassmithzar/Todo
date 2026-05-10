@@ -5,13 +5,17 @@
 			<a href="/dashboard" class="navbar__link navbar__link--active">
 				Dashboard
 			</a>
-			<a href="/tasks" class="navbar__link">Tasks</a>
+			<a href="/todo" class="navbar__link">To do</a>
 			<a href="/users" class="navbar__link">Users</a>
 		</nav>
 	</div>
 
 	<div class="navbar__right">
-		<button type="button" class="navbar__button navbar__button--ghost">Notifications</button>
-		<button type="button" class="navbar__button navbar__button--primary">New Task</button>
+     <p-button
+      label="New To do"
+      icon="pi pi-plus"
+      severity="primary"
+      [outlined]="true"
+    />
 	</div>
 </header>
