@@ -9,12 +9,12 @@ export const routes: Routes = [
 	{
 		path: 'dashboard',
 		loadComponent: () =>
-			import('./View/dashboard/dashboard').then((m) => m.Dashboard)
+			import('./views/dashboard/dashboard').then((m) => m.Dashboard)
 	},
 	{
 		path: 'users',
 		loadComponent: () =>
-			import('./View/users/users').then((m) => m.Users)
+			import('./views/users/users').then((m) => m.Users)
 	},
 	{
 		path: '**',

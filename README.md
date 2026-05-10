@@ -1,59 +1,136 @@
-# TodoManagement
+# Todo Management
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+Angular application that consumes JSONPlaceholder users and todos endpoints, supports local todo creation, and demonstrates clear state management with Angular signals.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- Angular 21 (standalone components + lazy routes)
+- PrimeNG + PrimeIcons
+- RxJS
+- Unit tests with Angular test runner (Vitest)
+- End-to-end tests with Playwright
 
-```bash
-ng serve
-```
+## API Endpoints
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- https://jsonplaceholder.typicode.com/users
+- https://jsonplaceholder.typicode.com/todos
 
-## Code scaffolding
+## Features
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Users list with loading and error states
+- User selection with user-specific todo rendering
+- Empty state handling for todos
+- Local todo creation assigned to selected user
+- Newly created local todo appears at the top of list
+- Responsive layout for desktop and mobile
 
-```bash
-ng generate component component-name
-```
+## Project Structure
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- src/app/views/users: users feature (list, details, local todo form)
+- src/app/views/dashboard: dashboard feature
+- src/app/components/navbar: app navigation
+- tests/e2e: Playwright end-to-end scenarios
 
-```bash
-ng generate --help
-```
+## Run Locally
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+1. Install dependencies
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+2. Start the app
 
 ```bash
-ng e2e
+npm run start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+3. Open in browser
 
-## Additional Resources
+- http://localhost:4200
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Testing
+
+### Unit Tests
+
+Run once:
+
+```bash
+npm run test -- --watch=false
+```
+
+### End-to-End Tests (Playwright)
+
+Install browser binary (first time only):
+
+```bash
+npx playwright install chromium
+```
+
+Run all e2e tests:
+
+```bash
+npm run test:e2e
+```
+
+Run headed mode:
+
+```bash
+npm run test:e2e:headed
+```
+
+Run UI mode:
+
+```bash
+npm run test:e2e:ui
+```
+
+Open HTML report:
+
+```bash
+npm run test:e2e:report
+```
+
+## State Management Approach
+
+State is managed with Angular signals in feature components:
+
+- Source state: users, todos, selected user id, loading, error, form input
+- Derived state: selected user, filtered user todos, form validity
+- Updates happen through explicit methods (loadData, selectUser, createLocalTodo)
+
+This keeps state predictable and easy to trace without introducing a global store for this project size.
+
+## Notable Decisions
+
+- Kept API access in feature services and state in components for clarity
+- Used computed signals for derived data (selected user, user todos)
+- Used local-only todo creation to satisfy requirement without persisting to API
+- Added test ids in Users view to make e2e assertions stable and less brittle
+
+## Accessibility Notes
+
+- Uses semantic sections, headings, table structure, form and labels via clear placeholders/title context
+- Loading and error states are visible and explicit
+- Areas to improve over time:
+	- stronger keyboard interactions for row selection
+	- additional ARIA attributes for richer assistive feedback,
+  - Tooltips and cursor/pointer indicators
+
+## Things Worth Improving over Time
+
+- A more fleshed out UX for better usability
+- Add dedicated route for user detail (for example users/:id) making app more comsumable
+- Add more tests for error and empty edge cases  
+- Add request cancellation/race protection on rapid refresh actions
+
+
+## Scripts
+
+- npm run start
+- npm run build
+- npm run test
+- npm run test:e2e
+- npm run test:e2e:headed
+- npm run test:e2e:ui
+- npm run test:e2e:report
