@@ -2,6 +2,15 @@
 
 Angular application that consumes JSONPlaceholder users and todos endpoints, supports local todo creation, and demonstrates clear state management with Angular signals.
 
+## Quick Start
+
+```bash
+npm install
+npm run start
+```
+
+Open http://localhost:4200 in your browser.
+
 ## Tech Stack
 
 - Angular 21 (standalone components + lazy routes)
@@ -95,6 +104,7 @@ npm run test:e2e:report
 
 State is managed with Angular signals in feature components:
 
+- Personally speaking this is a very big contestation part of the any application because it can be very convoluted therefore simple is always best,
 - Source state: users, todos, selected user id, loading, error, form input
 - Derived state: selected user, filtered user todos, form validity
 - Updates happen through explicit methods (loadData, selectUser, createLocalTodo)
@@ -104,8 +114,10 @@ This keeps state predictable and easy to trace without introducing a global stor
 ## Notable Decisions
 
 - Kept API access in feature services and state in components for clarity
+- Leaned on PrimeNG components for minimal wheel-reinvention
+- Use BEM for style leak prevention
 - Used computed signals for derived data (selected user, user todos)
-- Used local-only todo creation to satisfy requirement without persisting to API
+- Used local-only, for todo creation without persisting to API
 - Added test ids in Users view to make e2e assertions stable and less brittle
 
 ## Accessibility Notes
