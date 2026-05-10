@@ -18,7 +18,7 @@
     }
   </div>
   } @else {
-  <p-table [value]="users()" [rowsPerPageOptions]="[5, 10, 20]" [rows]="5" [paginator]="true"
+  <p-table data-testid="users-table" [value]="users()" [rowsPerPageOptions]="[5, 10, 20]" [rows]="5" [paginator]="true"
     [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
     <ng-template pTemplate="header">
       <tr>
@@ -29,7 +29,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
-      <tr class="users__row" [class.users__row--selected]="selectedUserId() === user.id" (click)="selectUser(user.id)">
+      <tr class="users__row" [attr.data-testid]="'user-row-' + user.id" [class.users__row--selected]="selectedUserId() === user.id" (click)="selectUser(user.id)">
         <td class="users__row-expander">
           <i [class]="selectedUserId() === user.id ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"></i>
         </td>
@@ -41,7 +41,7 @@
   </p-table>
 
   @if (selectedUser(); as user) {
-  <section class="users__detail-grid">
+  <section class="users__detail-grid" data-testid="selected-user-detail">
     <p-card styleClass="users__card users__card--profile">
       <ng-template pTemplate="header">
         <h2 class="users__detail-title">{{ user.name }}</h2>
@@ -58,13 +58,13 @@
         <dd>{{ user.company?.name }}</dd>
       </dl>
 
-      <form class="users__create-todo-form" (ngSubmit)="createLocalTodo()">
+      <form class="users__create-todo-form" data-testid="local-todo-form" (ngSubmit)="createLocalTodo()">
         <h3 class="users__form-title">Add New To-do</h3>
         <div class="users__form-group">
-          <input pInputText type="text" name="title" [ngModel]="newTodoTitle()"
+          <input pInputText type="text" data-testid="local-todo-input" name="title" [ngModel]="newTodoTitle()"
             (ngModelChange)="newTodoTitle.set($event)" placeholder="Enter a new to-do..." class="users__form-input"
             [disabled]="submitting()" />
-          <p-button label="Add To-do" [loading]="submitting()" [disabled]="!canSubmitTodo()"
+          <p-button data-testid="add-local-todo-button" label="Add To-do" [loading]="submitting()" [disabled]="!canSubmitTodo()"
             (onClick)="createLocalTodo()" class="users__form-button" />
         </div>
       </form>
@@ -81,7 +81,7 @@
         @if (userTodos().length === 0) {
         <p class="users__empty-state">No todos assigned.</p>
         } @else {
-        <ul class="users__todos-list">
+        <ul class="users__todos-list" data-testid="user-todos-list">
           @for (todo of userTodos(); track todo.id) {
           <li class="users__todo-item" [class.users__todo-item--completed]="todo.completed">
             <input type="checkbox" [checked]="todo.completed" disabled />
