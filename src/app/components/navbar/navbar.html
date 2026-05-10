@@ -1,12 +1,11 @@
 <header class="navbar">
 	<div class="navbar__left">
-		<a class="navbar__brand" href="/dashboard">To Do App</a>
+		<a class="navbar__brand" routerLink="/dashboard">To Do App</a>
 		<nav class="navbar__nav" aria-label="Primary">
-			<a href="/dashboard" class="navbar__link navbar__link--active">
+			<a routerLink="/dashboard" routerLinkActive="navbar__link--active" [routerLinkActiveOptions]="{ exact: true }" class="navbar__link">
 				Dashboard
 			</a>
-			<a href="/todo" class="navbar__link">To do</a>
-			<a href="/users" class="navbar__link">Users</a>
+			<a routerLink="/users" routerLinkActive="navbar__link--active" class="navbar__link">Users</a>
 		</nav>
 	</div>
 

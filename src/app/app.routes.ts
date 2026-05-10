@@ -12,6 +12,11 @@ export const routes: Routes = [
 			import('./View/dashboard/dashboard').then((m) => m.Dashboard)
 	},
 	{
+		path: 'users',
+		loadComponent: () =>
+			import('./View/users/users').then((m) => m.Users)
+	},
+	{
 		path: '**',
 		redirectTo: 'dashboard'
 	}
